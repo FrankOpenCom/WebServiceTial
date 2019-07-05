@@ -2,7 +2,11 @@ from flask import Flask, request, redirect, url_for
 
 app = Flask(__name__)
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
+def welcome():
+    return app.send_static_file('welcome.html')
+
+@app.route('/submit', methods=['GET', 'POST'])
 def submisstion():
     if request.method == "GET":
         return app.send_static_file('submit_topic.html')
