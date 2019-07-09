@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 
-from flask import Flask, request, redirect, url_for, send_from_directory
+from flask import Flask, request, redirect, url_for, send_from_directory, render_template
 from os import path
 import sqlite3
 from sqlite3 import Error
 
 database_file_path = 'data.db'
+
+app = Flask(__name__)
+
 
 def create_connection(db_file):
     """ create a database connection to a SQLite database """
@@ -18,10 +21,7 @@ def create_connection(db_file):
         print(e)
     finally:
         conn.close()
-
-
-app = Flask(__name__)
-
+        
 
 def insert_topic(presenter, co_persenter, language, nitech, title, abstract):
     try:
@@ -38,6 +38,7 @@ def insert_topic(presenter, co_persenter, language, nitech, title, abstract):
         return False
     finally:
         con.close()
+
 
 @app.route('/favicon.ico')
 def favicon():
@@ -61,6 +62,21 @@ def submisstion():
             else:
                 return redirect(url_for('submit_error')) ### TODO: Show error details
 
+@app.route('/list_topics')
+def list_topics():
+    try:
+        with sqlite3.connect(database_file_path) as con:
+            con.row_factory = sqlite3.Row
+            cur = con.cursor()
+            cur.execute("select * from topics")
+            rows = cur.fetchall()
+    except Error as e:
+        print(e)
+        return
+    finally:
+        return render_template("topics_list.html",rows = rows)
+        con.close()
+    
 
 @app.route('/submit_done')
 def submit_done():

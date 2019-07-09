@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+   <body>
+      <table border = 1>
+         <thead>
+            <td>ID</td>
+            <td>Title</td>
+            <td>Presenter</td>
+            <td>Co-Presenter</td>
+         </thead>
+         
+         {% for row in rows %}
+            <tr>
+               <td>{{row["name"]}}</td>
+               <td>{{row["addr"]}}</td>
+               <td> {{ row["city"]}}</td>
+               <td>{{row['pin']}}</td>
+               <td>Edit</td>
+               <td>Delete</td>
+            </tr>
+         {% endfor %}
+      </table>
+      
+   </body>
+</html>
