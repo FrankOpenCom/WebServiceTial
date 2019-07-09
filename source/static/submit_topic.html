@@ -8,7 +8,9 @@
 <h1><img src="static/images/nitech_shanghai_2019_logo.png"> NITech Shanghai 2019 - Topic Submission</h1>
 <body>
 
-<form name="topic" method="post">
+<script src="static/js/myscripts.js"></script>
+
+<form name="topic" method="post" onsubmit="return validateForm()">
     Presenter:
     <input type="text" name="Presenter" value="" required> &emsp; Email: <input type="email" name="Email" value="" pattern="[a-z0-9._%+-]+@ni\.com$" required>
     <br><br>
