@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from flask import Flask, request, redirect, url_for
+from flask import Flask, request, redirect, url_for, send_from_directory
 from os import path
 import sqlite3
 from sqlite3 import Error
@@ -39,7 +39,12 @@ def insert_topic(presenter, co_persenter, language, nitech, title, abstract):
     finally:
         con.close()
 
-
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(path.join(app.root_path, 'static/images'),
+                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
+    
+    
 @app.route('/')
 def welcome():
     return app.send_static_file('welcome.html')
@@ -54,7 +59,7 @@ def submisstion():
             if insert_topic(request.form['Presenter'], request.form['Co-Presenter'], request.form['Language'], request.form['NITech'], request.form['Title'], request.form['Abstract']):
                 return redirect(url_for('submit_done'))
             else:
-                return redirect(url_for('submit_error'))
+                return redirect(url_for('submit_error')) ### TODO: Show error details
 
 
 @app.route('/submit_done')
@@ -70,4 +75,5 @@ if __name__ == '__main__':
     if not path.isfile(database_file_path):
         print('create a empty database file\n')
         create_connection(database_file_path)
+
     app.run()

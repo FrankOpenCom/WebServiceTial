@@ -1,6 +1,7 @@
 <!DOCTYPE html></body>
 <html lang="en">
 <head>
+    <link rel="shortcut icon" href="favicon.ico">
     <meta charset="ANSI">
 </head>
 
@@ -8,11 +9,11 @@
 <body>
 
 <form name="topic" method="post">
-    Presenter:<br>
-    <input type="text" name="Presenter" value="" required>
+    Presenter:
+    <input type="text" name="Presenter" value="" required> &emsp; Email: <input type="email" name="Email" value="" pattern="[a-z0-9._%+-]+@ni\.com$" required>
     <br><br>
-    Co-presenter: (Up to One)<br>
-    <input type="text" name="Co-Presenter" value="">
+    Co-presenter: (Up to One)
+    <input type="text" name="Co-Presenter" value=""> &emsp; Email: <input type="email" name="Co-Email" pattern="[a-z0-9._%+-]+@ni\.com$" value="">
     <br><br>
     Language:
     <input type="radio" name="Language" Value="English/Chinese" checked>English/Chinese
