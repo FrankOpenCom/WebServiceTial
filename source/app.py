@@ -83,7 +83,10 @@ def handle_invalid_usage(error):
 
 @app.route('/topic/<int:id>')
 def topic(id):
-    return "a"
+    if id <= 0:
+        ### create a new topic
+    else:
+        ### edit or delete a existing topic
 
 
 @app.route('/')
