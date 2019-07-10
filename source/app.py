@@ -67,8 +67,8 @@ def update_topic(id, presenter, email, co_presenter, co_email, language, nitech,
         raise e
     finally:
         con.close()
-        
-        
+
+
 def delete_topic(id):
     try:
         with sqlite3.connect(database_file_path) as con:
@@ -142,7 +142,7 @@ def topic(id):
                              request.form['Language'], request.form['NITech'], request.form['Title'], request.form['Abstract'])
             else:
                 delete_topic(id)
-            
+
             return redirect('/')
 
     except:
@@ -158,10 +158,14 @@ def root():
         raise InvalidUsage(traceback.format_exc(), status_code=410)
 
 
-if __name__ == '__main__':
+def main():
     if not path.isfile(database_file_path):
         print('create a empty database file\n')
         create_connection(database_file_path)
 
-    ### app.run()
+    # app.run()
     serve(app, host='0.0.0.0', port=8000)
+
+
+if __name__ == '__main__':
+    main()
