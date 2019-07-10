@@ -83,7 +83,7 @@ def handle_invalid_usage(error):
 
 @app.route('/topic/<int:id>')
 def topic(id):
-    return
+    return "a"
 
 
 @app.route('/')
