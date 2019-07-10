@@ -163,5 +163,5 @@ if __name__ == '__main__':
         print('create a empty database file\n')
         create_connection(database_file_path)
 
-    app.run()
-    ### serve(app, host='0.0.0.0', port=8000)
+    ### app.run()
+    serve(app, host='0.0.0.0', port=8000)

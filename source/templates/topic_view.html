@@ -14,11 +14,11 @@
 
     <form name="topic" method="post" onsubmit="return validateForm()">
         Presenter:
-        <input required type="text" name="Presenter" value={{row["presenter"]}}> &emsp; Email: <input
+        <input required type="text" name="Presenter" value="{{row["presenter"]}}"> &emsp; Email: <input
             pattern="[a-zA-Z0-9._%+-]+@ni\.com$" required type="email" name="Email" value={{row["email"]}}>
         <br><br>
         Co-presenter: (Up to One)
-        <input type="text" name="Co-Presenter" value={{row["co_presenter"]}}> &emsp; Email: <input type="email"
+        <input type="text" name="Co-Presenter" value="{{row["co_presenter"]}}"> &emsp; Email: <input type="email"
             name="Co-Email" pattern="[a-zA-Z0-9._%+-]+@ni\.com$" value={{row["co_email"]}}>
         <br><br>
         Language:
@@ -40,7 +40,7 @@
         {% endif %}
         <br><br>
         Title:<br>
-        <input required type="text" name="Title" maxlength="100" style="width: 20%;" value={{row["title"]}}>
+        <input required type="text" name="Title" maxlength="100" style="width: 20%;" value="{{row["title"]}}">
         <br><br>
         Abstract:<br>
         <textarea type="radio" name="Abstract" required
