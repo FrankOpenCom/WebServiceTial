@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="shortcut icon" href="../favicon.ico">
     <meta charset="ANSI">
 </head>
 
 <h1><img src="../static/images/nitech_shanghai_2019_logo.png"> NITech Shanghai 2019 - Topic Submission</h1>
 <body>
 
-<script src="static/js/myscripts.js"></script>
+<script src="../static/js/myscripts.js"></script>
 
 <form name="topic" method="post" onsubmit="return validateForm()">
     Presenter:
@@ -41,9 +41,11 @@
     Abstract:<br>
     <textarea type="radio" name="Abstract" required style="height: 200px; width: 50%;">{{row["abstract"]}}</textarea>
     <br><br>
-
-
     <input type="submit" value="Submit">
+
+    {% if row["title"] != "" %}
+        <form method="delete"><input type="submit" value="Delete"></form>
+    {% endif %}
 </form>
 
 </body>

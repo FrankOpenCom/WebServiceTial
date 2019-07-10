@@ -34,17 +34,17 @@ def create_connection(db_file):
     try:
         conn = sqlite3.connect(db_file)
         conn.execute(
-            'CREATE TABLE topics (id integer PRIMARY KEY, presenter TEXT, email TEXT, co_persenter TEXT, co_email TEXT, language TEXT, nitech TEXT, title TEXT, abstract TEST)')
+            'CREATE TABLE topics (id integer PRIMARY KEY, presenter TEXT, email TEXT, co_presenter TEXT, co_email TEXT, language TEXT, nitech TEXT, title TEXT, abstract TEST)')
     finally:
         conn.close()
         
 
-def insert_topic(presenter, email, co_persenter, co_email, language, nitech, title, abstract):
+def add_topic(presenter, email, co_presenter, co_email, language, nitech, title, abstract):
     try:
         with sqlite3.connect(database_file_path) as con:
             cur = con.cursor()
-            cur.execute("INSERT INTO topics(presenter, email, co_persenter, co_email, language, nitech, title, abstract) VALUES(?, ?, ?, ?, ?, ?)",
-                        (presenter, email, co_persenter, co_email, language, nitech, title, abstract))
+            cur.execute("INSERT INTO topics(presenter, email, co_presenter, co_email, language, nitech, title, abstract) VALUES(?, ?, ?, ?, ?, ?, ?, ?)",
+                        (presenter, email, co_presenter, co_email, language, nitech, title, abstract))
 
             con.commit()
     except Error as e:
@@ -71,9 +71,9 @@ def get_topic(id):
         with sqlite3.connect(database_file_path) as con:
             con.row_factory = sqlite3.Row
             cur = con.cursor()
-            cur.execute("select * from topics where id=?", (id))
-            row = cur.fetchall()
-            return row
+            cur.execute("select * from topics where id=?", (id,))
+            rows = cur.fetchall()
+            return rows[0]
     finally:
         con.close()
 
@@ -95,14 +95,21 @@ def handle_invalid_usage(error):
     return response
 
 
-@app.route('/topic/<int:id>')
+@app.route('/topic/<int:id>', methods = ['GET', 'POST', 'DELETE'])
 def topic(id):
     try:
         row = {"presenter": "", "email": "", "co_presenter": "", "co_email": "", "language": "English/Chinese", "nitech": "NIC/NISH", "title": "", "abstract": ""}
-        if id > 0:
-            row = get_topic(id)
-
-        return render_template("topic_view.html",row = row)
+        if request.method == 'GET':
+            if id > 0:
+                row = get_topic(id)
+            return render_template("topic_view.html", row = row)
+        
+        if request.method == 'POST':
+            if id <= 0:
+                add_topic(request.form['Presenter'], request.form['Email'], request.form['Co-Presenter'], request.form['Co-Email'],
+                          request.form['Language'], request.form['NITech'], request.form['Title'], request.form['Abstract'])
+            return redirect('/')
+        
     except:
         raise InvalidUsage(traceback.format_exc(), status_code=410)
     
