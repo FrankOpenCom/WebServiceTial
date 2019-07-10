@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+</body>
+<html lang="en">
+
+<head>
+    <link rel="shortcut icon" href="favicon.ico">
+    <meta charset="ANSI">
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+
+<h1><img src="static/images/nitech_shanghai_2019_logo.png"> NITech Shanghai 2019 - Topics</h1>
+
+<body>
+    <div>
+        <form action="/list_topics">
+            <input type="button" value="Submit a new Topic" />
+        </form>
+    </div>
+
+    <br>
+
+    <div id="topics">
+        <table class="topics_table">
+            <thead class="topics_table_head">
+                <td class="head_id">ID</td>
+                <td class="head_title">Title</td>
+                <td class="head_presenter">Presenter</td>
+                <td class="head_co_presenter">Co-Presenter</td>
+            </thead>
+
+            {% for row in rows %}
+            <tr>
+                <td>{{row["id"]}}</td>
+                <td class="title_text"><a href={{ url_for( 'topic', id=row[ "id"]) }}>{{row["title"]}}</a></td>
+                <td>{{row["presenter"]}}</td>
+                <td>{{row['co_presenter']}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+
+</body>
+
+</html>

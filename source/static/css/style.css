@@ -6,4 +6,41 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-  }
+}
+
+.topics_table_head {
+    background-color: lightblue;
+}
+
+.topics_table {
+    width: 50%;
+    border: 1px solid black;
+    border: 1;
+}
+
+.head_id {
+    text-align: center;
+    width: 3%;
+}
+
+.head_title {
+    text-align: center;
+}
+
+.head_presenter {
+    text-align: center;
+    width: 15%;
+}
+
+.head_co_presenter {
+    text-align: center;
+    width: 15%;
+}
+
+.title_text {
+    text-align: left;
+}
+
+td {
+    text-align: center;
+}
