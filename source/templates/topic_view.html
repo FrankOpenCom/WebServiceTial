@@ -1,51 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <link rel="shortcut icon" href="../favicon.ico">
     <meta charset="ANSI">
 </head>
 
 <h1><img src="../static/images/nitech_shanghai_2019_logo.png"> NITech Shanghai 2019 - Topic Submission</h1>
+
 <body>
 
-<script src="../static/js/myscripts.js"></script>
+    <script src="../static/js/myscripts.js"></script>
 
-<form name="topic" method="post" onsubmit="return validateForm()">
-    Presenter:
-    <input required type="text" name="Presenter" value={{row["presenter"]}} > &emsp; Email: <input pattern="[a-z0-9._%+-]+@ni\.com$" required type="email" name="Email" value={{row["email"]}} >
-    <br><br>
-    Co-presenter: (Up to One)
-    <input type="text" name="Co-Presenter" value={{row["co_presenter"]}}> &emsp; Email: <input type="email" name="Co-Email" pattern="[a-z0-9._%+-]+@ni\.com$" value={{row["co_email"]}}>
-    <br><br>
-    Language:
-    {% if row["language"] == "English/Chinese" %}
+    <form name="topic" method="post" onsubmit="return validateForm()">
+        Presenter:
+        <input required type="text" name="Presenter" value={{row["presenter"]}}> &emsp; Email: <input
+            pattern="[a-zA-Z0-9._%+-]+@ni\.com$" required type="email" name="Email" value={{row["email"]}}>
+        <br><br>
+        Co-presenter: (Up to One)
+        <input type="text" name="Co-Presenter" value={{row["co_presenter"]}}> &emsp; Email: <input type="email"
+            name="Co-Email" pattern="[a-zA-Z0-9._%+-]+@ni\.com$" value={{row["co_email"]}}>
+        <br><br>
+        Language:
+        {% if row["language"] == "English/Chinese" %}
         <input type="radio" name="Language" Value="English/Chinese" checked>English/Chinese
-        <input type="radio" name="Language" Value="Chinese" >Chinese Only
-    {% else %}
+        <input type="radio" name="Language" Value="Chinese">Chinese Only
+        {% else %}
         <input type="radio" name="Language" Value="English/Chinese">English/Chinese
         <input type="radio" name="Language" Value="Chinese" checked>Chinese Only
-    {% endif %}
-    <br><br>
-    Submit to NITech:
-    {% if row["nitech"] == "NIC/NISH" %}
-        <input type="radio" name="NITech" value="NIC/NISH" checked >Austin and Shanghai
-        <input type="radio" name="NITech" value="NISH" >Shanghai only
-    {% else %}
-        <input type="radio" name="NITech" value="NIC/NISH" >Austin and Shanghai
-        <input type="radio" name="NITech" value="NISH" checked >Shanghai only
-    {% endif %}
-    <br><br>
-    Title:<br>
-    <input required type="text" name="Title"  maxlength="100" style="width: 20%;" value={{row["title"]}}>
-    <br><br>
-    Abstract:<br>
-    <textarea type="radio" name="Abstract" required style="height: 200px; width: 50%;">{{row["abstract"]}}</textarea>
-    <br><br>
-    <input type="submit" value="Submit">
+        {% endif %}
+        <br><br>
+        Submit to NITech:
+        {% if row["nitech"] == "NIC/NISH" %}
+        <input type="radio" name="NITech" value="NIC/NISH" checked>Austin and Shanghai
+        <input type="radio" name="NITech" value="NISH">Shanghai only
+        {% else %}
+        <input type="radio" name="NITech" value="NIC/NISH">Austin and Shanghai
+        <input type="radio" name="NITech" value="NISH" checked>Shanghai only
+        {% endif %}
+        <br><br>
+        Title:<br>
+        <input required type="text" name="Title" maxlength="100" style="width: 20%;" value={{row["title"]}}>
+        <br><br>
+        Abstract:<br>
+        <textarea type="radio" name="Abstract" required
+            style="height: 200px; width: 50%;">{{row["abstract"]}}</textarea>
+        <br><br>
+        <input type="submit" value="Submit">
+    </form>
+
+    <br>
 
     {% if row["title"] != "" %}
-        <form method="delete"><input type="submit" value="Delete"></form>
+        <form method="POST" onsubmit="return Warning()"><input type="submit" value="Delete" ></form>
     {% endif %}
-</form>
 
 </body>
+
+</html>
