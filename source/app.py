@@ -34,21 +34,22 @@ def create_connection(db_file):
     try:
         conn = sqlite3.connect(db_file)
         conn.execute(
-            'CREATE TABLE topics (id integer PRIMARY KEY, presenter TEXT, co_persenter TEXT, language TEXT, nitech TEXT, title TEXT, abstract TEST)')
+            'CREATE TABLE topics (id integer PRIMARY KEY, presenter TEXT, email TEXT, co_persenter TEXT, co_email TEXT, language TEXT, nitech TEXT, title TEXT, abstract TEST)')
     finally:
         conn.close()
         
 
-def insert_topic(presenter, co_persenter, language, nitech, title, abstract):
+def insert_topic(presenter, email, co_persenter, co_email, language, nitech, title, abstract):
     try:
         with sqlite3.connect(database_file_path) as con:
             cur = con.cursor()
-            cur.execute("INSERT INTO topics(presenter, co_persenter, language, nitech, title, abstract) VALUES(?, ?, ?, ?, ?, ?)",
-                        (presenter, co_persenter, language, nitech, title, abstract))
+            cur.execute("INSERT INTO topics(presenter, email, co_persenter, co_email, language, nitech, title, abstract) VALUES(?, ?, ?, ?, ?, ?)",
+                        (presenter, email, co_persenter, co_email, language, nitech, title, abstract))
 
             con.commit()
     except Error as e:
         con.rollback()
+        raise e
     finally:
         con.close()
 
@@ -63,6 +64,19 @@ def get_topics():
             return rows
     finally:
         con.close()
+
+
+def get_topic(id):
+    try:
+        with sqlite3.connect(database_file_path) as con:
+            con.row_factory = sqlite3.Row
+            cur = con.cursor()
+            cur.execute("select * from topics where id=?", (id))
+            row = cur.fetchall()
+            return row
+    finally:
+        con.close()
+
 
 ### for Flask part
 app = Flask(__name__)
@@ -83,11 +97,15 @@ def handle_invalid_usage(error):
 
 @app.route('/topic/<int:id>')
 def topic(id):
-    if id <= 0:
-        ### create a new topic
-    else:
-        ### edit or delete a existing topic
+    try:
+        row = {"presenter": "", "email": "", "co_presenter": "", "co_email": "", "language": "English/Chinese", "nitech": "NIC/NISH", "title": "", "abstract": ""}
+        if id > 0:
+            row = get_topic(id)
 
+        return render_template("topic_view.html",row = row)
+    except:
+        raise InvalidUsage(traceback.format_exc(), status_code=410)
+    
 
 @app.route('/')
 def root():
@@ -100,5 +118,9 @@ def root():
 
 
 if __name__ == '__main__':
+   if not path.isfile(database_file_path):
+        print('create a empty database file\n')
+        create_connection(database_file_path)
+
    app.run()
    ### serve(app, host='0.0.0.0', port=8000)

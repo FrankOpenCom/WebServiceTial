@@ -26,6 +26,8 @@
                 <td class="head_title">Title</td>
                 <td class="head_presenter">Presenter</td>
                 <td class="head_co_presenter">Co-Presenter</td>
+                <td class="head_nitech">NITech</td>
+                <td class="head_language">Language</td>
             </thead>
 
             {% for row in rows %}
@@ -34,6 +36,8 @@
                 <td class="title_text"><a href={{ url_for( 'topic', id=row[ "id"]) }}>{{row["title"]}}</a></td>
                 <td>{{row["presenter"]}}</td>
                 <td>{{row['co_presenter']}}</td>
+                <td>{{row["nitech"]}}</td>
+                <td>{{row['language']}}</td>
             </tr>
             {% endfor %}
         </table>
