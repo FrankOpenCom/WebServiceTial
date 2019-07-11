@@ -109,6 +109,19 @@ def get_topic(id):
         con.close()
 
 
+def increase_vote_count(ids):
+    try:
+        with sqlite3.connect(database_file_path) as con:
+            con.row_factory = sqlite3.Row
+            cur = con.cursor()
+            cur.execute("UPDATE topics SET vote_interest = vote_interest + 1 WHERE id IN %s " % str(ids))
+            con.commit()
+    except Error as e:
+        con.rollback()
+        raise e
+    finally:
+        con.close()
+
 # for Flask part
 app = Flask(__name__)
 
@@ -160,8 +173,10 @@ def vote():
             return render_template("vote_view.html", rows=rows, popular=0)
         
         if request.method == 'POST':
-            a = dict(request.form)
-            return 
+            selected_topics = list(dict(request.form).keys())
+            selected_topics = list(map(int, selected_topics))
+            increase_vote_count(tuple(selected_topics))
+            return "Thank you!"
     except:
         raise InvalidUsage(traceback.format_exc(), status_code=410)   
 

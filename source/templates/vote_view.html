@@ -15,7 +15,7 @@
         {% for row in rows %}
         <div>
             <div style="display: flex; flex-direction: row;">
-                <input name="{{row["id"]}}" style="width:30px; height:30px;" type="checkbox" value="selected" />
+                <input name={{row["id"]}} style="width:30px; height:30px;" type="checkbox" value="selected" />
                 &emsp;
                 <pre style="white-space: pre-wrap; color:blue; size:110%; font-weight: bold;">{{row["title"]}}</pre>
             </div>
