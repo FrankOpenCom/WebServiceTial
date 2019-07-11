@@ -109,12 +109,15 @@ def get_topic(id):
         con.close()
 
 
-def increase_vote_count(ids):
+def increase_vote_count(ids, popular):
     try:
         with sqlite3.connect(database_file_path) as con:
             con.row_factory = sqlite3.Row
             cur = con.cursor()
-            cur.execute("UPDATE topics SET vote_interest = vote_interest + 1 WHERE id IN %s " % str(ids))
+            if popular == 0:
+                cur.execute("UPDATE topics SET vote_interest = vote_interest + 1 WHERE id IN %s " % str(ids))
+            else:
+                cur.execute("UPDATE topics SET vote_popular = vote_popular + 1 WHERE id IN %s " % str(ids))
             con.commit()
     except Error as e:
         con.rollback()
@@ -175,7 +178,7 @@ def vote():
         if request.method == 'POST':
             selected_topics = list(dict(request.form).keys())
             selected_topics = list(map(int, selected_topics))
-            increase_vote_count(tuple(selected_topics))
+            increase_vote_count(tuple(selected_topics), 0)
             return "Thank you!"
     except:
         raise InvalidUsage(traceback.format_exc(), status_code=410)   
