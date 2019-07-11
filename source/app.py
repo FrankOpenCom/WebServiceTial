@@ -158,6 +158,10 @@ def vote():
         if request.method == 'GET':
             rows = get_topics()
             return render_template("vote_view.html", rows=rows, popular=0)
+        
+        if request.method == 'POST':
+            a = dict(request.form)
+            return 
     except:
         raise InvalidUsage(traceback.format_exc(), status_code=410)   
 

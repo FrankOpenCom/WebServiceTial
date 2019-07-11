@@ -6,27 +6,27 @@
     <meta charset="ANSI">
 </head>
 
-<h1><img src="../static/images/nitech_shanghai_2019_logo.png"> NITech Shanghai 2019 - What are your interested NITech Shanghai 2019 topics?</h1>
+<h1><img src="../static/images/nitech_shanghai_2019_logo.png"> NITech Shanghai 2019</h1>
+<h2>&emsp;What are your interested NITech Shanghai 2019 topics?</h2>
 
 <body>
 
     <form style="width: 60%;" method="post">
-        <table style="border: 1px solid black;">
-            {% for row in rows %}
-            <tr>
-                <td class="td_vote_i_topics_id" style="display:none; width: 0%;">{{row["id"]}}</td>
-                <td style="width: 5%;">
-                    <input style=" width:30px; height:30px;" type="checkbox"/>
-                </td>
-                <td style="width: 70%;">
-                    <pre style="white-space: pre-wrap; color:blue; size:110%; font-weight: bold;">{{row["title"]}}</pre>
-                    {% if popular == 0 %}
-                        <pre style="white-space: pre-wrap; text-align: left;">{{row["abstract"]}}</pre>
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
+        {% for row in rows %}
+        <div>
+            <div style="display: flex; flex-direction: row;">
+                <input name="{{row["id"]}}" style="width:30px; height:30px;" type="checkbox" value="selected" />
+                &emsp;
+                <pre style="white-space: pre-wrap; color:blue; size:110%; font-weight: bold;">{{row["title"]}}</pre>
+            </div>
+
+            {% if popular == 0 %}
+                <pre style="white-space: pre-wrap; text-align: left;">{{row["abstract"]}}</pre>
+            {% endif %}
+        </div>
+        <hr>
+        {% endfor %}
+        <br>
         <input type="submit" value="Submit">
     </form>
 
