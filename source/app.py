@@ -34,7 +34,8 @@ def create_connection(db_file):
     try:
         conn = sqlite3.connect(db_file)
         conn.execute(
-            'CREATE TABLE topics (id integer PRIMARY KEY, presenter TEXT, email TEXT, co_presenter TEXT, co_email TEXT, language TEXT, nitech TEXT, title TEXT, abstract TEST)')
+            'CREATE TABLE topics (id integer PRIMARY KEY, presenter TEXT, email TEXT, co_presenter TEXT, \
+             co_email TEXT, language TEXT, nitech TEXT, title TEXT, abstract TEST, vote_interest integer, vote_popular integer)')
     finally:
         conn.close()
 
@@ -43,8 +44,9 @@ def add_topic(presenter, email, co_presenter, co_email, language, nitech, title,
     try:
         with sqlite3.connect(database_file_path) as con:
             cur = con.cursor()
-            cur.execute("INSERT INTO topics(presenter, email, co_presenter, co_email, language, nitech, title, abstract) VALUES(?, ?, ?, ?, ?, ?, ?, ?)",
-                        (presenter, email, co_presenter, co_email, language, nitech, title, abstract))
+            cur.execute("INSERT INTO topics(presenter, email, co_presenter, co_email, language, nitech, \
+                        title, abstract, vote_interest, vote_popular) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                        (presenter, email, co_presenter, co_email, language, nitech, title, abstract, 0 , 0))
 
             con.commit()
     except Error as e:
@@ -58,7 +60,8 @@ def update_topic(id, presenter, email, co_presenter, co_email, language, nitech,
     try:
         with sqlite3.connect(database_file_path) as con:
             cur = con.cursor()
-            cur.execute("UPDATE topics SET presenter=?, email=?, co_presenter=?, co_email=?, language=?, nitech=?, title=?, abstract=? WHERE id=?",
+            cur.execute("UPDATE topics SET presenter=?, email=?, co_presenter=?, co_email=?, language=?, \
+                        nitech=?, title=?, abstract=? WHERE id=?",
                         (presenter, email, co_presenter, co_email, language, nitech, title, abstract, id))
 
             con.commit()
@@ -149,6 +152,16 @@ def topic(id):
         raise InvalidUsage(traceback.format_exc(), status_code=410)
 
 
+@app.route('/vote', methods=['GET', 'POST'])
+def vote():
+    try:
+        if request.method == 'GET':
+            rows = get_topics()
+            return render_template("vote_view.html", rows=rows, popular=0)
+    except:
+        raise InvalidUsage(traceback.format_exc(), status_code=410)   
+
+
 @app.route('/')
 def root():
     try:
@@ -163,8 +176,8 @@ def main():
         print('create a empty database file\n')
         create_connection(database_file_path)
 
-    # app.run()
-    serve(app, host='0.0.0.0', port=8000)
+    app.run()
+    # serve(app, host='0.0.0.0', port=8000)
 
 
 if __name__ == '__main__':
